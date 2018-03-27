@@ -21,11 +21,14 @@ io.on('connection', (socket) => {
 
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
   
-  socket.on('createMessage', (message) => {
+  socket.on('createMessage', (message, callback) => {
     console.log('createMessage', message);
 
     // send msg to all connected user
     io.emit('newMessage', generateMessage(message.from, message.text));
+    
+    // send acknowledgement to client using callback
+    callback('This is from the server');
 
     // Other than the guy who send the msg to server, 
     // everyone will be notified
