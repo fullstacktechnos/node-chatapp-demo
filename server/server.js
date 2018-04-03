@@ -25,9 +25,14 @@ io.on('connection', (socket) => {
     if (!isRealString(params.name) || !isRealString(params.room) ) {
       return callback('name and room name are required');
     }
+    if (users.isUserJoined(params.room, params.name)) {
+      return callback('User already joined the room');
+    }
 
     socket.join(params.room);
     users.removeUser(socket.id);
+    
+
     users.addUser(socket.id, params.name, params.room);
 
     io.to(params.room).emit('updateUserList', users.getUserList(params.room));

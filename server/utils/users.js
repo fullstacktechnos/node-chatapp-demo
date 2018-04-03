@@ -24,8 +24,16 @@ class Users {
 
   getUserList(room) {
     let users = this.users.filter((user) => user.room === room );
-    var names = users.map((user) => user.name );
+    let names = users.map((user) => user.name );
     return names;
+  }
+
+  isUserJoined(room, username) {
+    const userNames = this.getUserList(room);
+    let results = userNames.filter(name => name.toLowerCase() === username.toLowerCase())
+    if (results.length > 0) {
+      return true;
+    }
   }
 }
 

@@ -16,12 +16,14 @@ function scrollToBottom() {
 }
 socket.on("connect", function () {
   var params = jQuery.deparam(window.location.search);
+  params.room = params.room.toLowerCase();
   socket.emit('join', params, function (err) {
     if (err) {
       alert(err);
       window.location.href='/';
     } else {
       console.log('no error !!');
+      jQuery("#roomname").html(`Room - ${params.room}`)
     }
   });
 });
@@ -31,10 +33,17 @@ socket.on("disconnect", function () {
 });
 
 socket.on('updateUserList', function(users) {
+  var params = jQuery.deparam(window.location.search);
   var ol = jQuery('<ol></ol>');
   
   users.forEach(function (user) {
-    ol.append(jQuery('<li></li>').text(user));
+    // Change style of current user
+    if (user.toLowerCase() === params.name.toLowerCase()) {
+      ol.append(jQuery("<li style='color:red'></li>").text(user));  
+    } else {
+      ol.append(jQuery('<li></li>').text(user));
+    }
+    
   })
 
   jQuery("#users").html(ol);

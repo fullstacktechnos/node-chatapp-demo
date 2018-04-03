@@ -83,4 +83,14 @@ describe("Users", () => {
     expect(userList).toEqual(['Sachin']);
     
   });
+
+  it('Should return true if user already joined the room', () => {
+    const isUserJoined = myUsers.isUserJoined(myUsers.users[0].room, myUsers.users[0].name );
+    expect(isUserJoined).toBeTruthy();
+  });
+
+  it('Should return true if user already joined the room', () => {
+    const isUserJoined = myUsers.isUserJoined(myUsers.users[0].room, 'Newname');
+    expect(isUserJoined).toBeFalsy();
+  });
 });
